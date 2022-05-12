@@ -14574,6 +14574,19 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <hr>
+<h2 id="Introduction"><strong>Introduction</strong><a class="anchor-link" href="#Introduction">&#182;</a></h2><p>TODO</p>
+<ul>
+<li>WCA?</li>
+<li>Big cubes?</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<hr>
 <h2 id="Data-collection/curation-+-parsing"><strong>Data collection/curation + parsing</strong><a class="anchor-link" href="#Data-collection/curation-+-parsing">&#182;</a></h2>
 </div>
 </div>
@@ -14582,7 +14595,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -14616,6 +14629,285 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      </div>
 </div>
 </div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df_avg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s1">/WCA_export_RanksAverage.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Drop all events that aren&#39;t the big cube events</span>
+<span class="n">df_avg</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">df_avg</span><span class="p">[(</span><span class="n">df_avg</span><span class="o">.</span><span class="n">eventId</span> <span class="o">&lt;</span> <span class="s1">&#39;555&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df_avg</span><span class="o">.</span><span class="n">eventId</span> <span class="o">&gt;</span> <span class="s1">&#39;777&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Only keep competitors with averages in all big cube events</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_avg</span><span class="p">,</span> <span class="n">df_avg</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;personId&#39;</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;_5&#39;</span><span class="p">,</span> <span class="s1">&#39;_6&#39;</span><span class="p">))</span>
+<span class="n">tmp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">tmp</span><span class="p">[(</span><span class="n">tmp</span><span class="o">.</span><span class="n">eventId_5</span> <span class="o">!=</span> <span class="s1">&#39;555&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">eventId_6</span> <span class="o">!=</span> <span class="s1">&#39;666&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">df_avg</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;personId&#39;</span><span class="p">)</span>
+<span class="n">df_grouped</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">tmp</span><span class="p">[(</span><span class="n">tmp</span><span class="o">.</span><span class="n">eventId_5</span> <span class="o">!=</span> <span class="s1">&#39;555&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">eventId_6</span> <span class="o">!=</span> <span class="s1">&#39;666&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">eventId</span> <span class="o">!=</span> <span class="s1">&#39;777&#39;</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df_grouped</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Drop eventId columns as not needed anymore</span>
+<span class="n">df_grouped</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;eventId_5&#39;</span><span class="p">,</span> <span class="s1">&#39;eventId_6&#39;</span><span class="p">,</span> <span class="s1">&#39;eventId&#39;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Rename columns relating to 7x7</span>
+<span class="n">df_grouped</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">_7&#39;</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df_grouped</span><span class="o">.</span><span class="n">columns</span><span class="p">)]</span>
+
+<span class="c1"># Fix time scale</span>
+<span class="n">df_grouped</span><span class="p">[</span><span class="s1">&#39;best_5&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df_grouped</span><span class="p">[</span><span class="s1">&#39;best_5&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
+<span class="n">df_grouped</span><span class="p">[</span><span class="s1">&#39;best_6&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df_grouped</span><span class="p">[</span><span class="s1">&#39;best_6&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
+<span class="n">df_grouped</span><span class="p">[</span><span class="s1">&#39;best_7&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">df_grouped</span><span class="p">[</span><span class="s1">&#39;best_7&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">)</span>
+
+<span class="n">df_grouped</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>personId</th>
+      <th>best_5</th>
+      <th>worldRank_5</th>
+      <th>continentRank_5</th>
+      <th>countryRank_5</th>
+      <th>best_6</th>
+      <th>worldRank_6</th>
+      <th>continentRank_6</th>
+      <th>countryRank_6</th>
+      <th>best_7</th>
+      <th>worldRank_7</th>
+      <th>continentRank_7</th>
+      <th>countryRank_7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2012PARK03</td>
+      <td>38.45</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>75.63</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>106.57</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016KOLA02</td>
+      <td>39.79</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>80.36</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>122.46</td>
+      <td>5</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2009ZEMD01</td>
+      <td>42.09</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>81.90</td>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>120.63</td>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2012BEAH01</td>
+      <td>42.95</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>81.63</td>
+      <td>4</td>
+      <td>3</td>
+      <td>1</td>
+      <td>119.92</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2013NAHM01</td>
+      <td>44.78</td>
+      <td>5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>86.96</td>
+      <td>7</td>
+      <td>1</td>
+      <td>1</td>
+      <td>125.08</td>
+      <td>6</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4261</th>
+      <td>2013HERM02</td>
+      <td>231.48</td>
+      <td>14091</td>
+      <td>4126</td>
+      <td>26</td>
+      <td>634.00</td>
+      <td>6117</td>
+      <td>1895</td>
+      <td>15</td>
+      <td>738.00</td>
+      <td>4837</td>
+      <td>1488</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>4262</th>
+      <td>2005GUST02</td>
+      <td>235.04</td>
+      <td>14117</td>
+      <td>4135</td>
+      <td>162</td>
+      <td>626.00</td>
+      <td>6116</td>
+      <td>1894</td>
+      <td>81</td>
+      <td>1031.00</td>
+      <td>4851</td>
+      <td>1496</td>
+      <td>69</td>
+    </tr>
+    <tr>
+      <th>4263</th>
+      <td>2011CHEC01</td>
+      <td>250.74</td>
+      <td>14254</td>
+      <td>4177</td>
+      <td>536</td>
+      <td>500.91</td>
+      <td>6090</td>
+      <td>1886</td>
+      <td>231</td>
+      <td>730.00</td>
+      <td>4835</td>
+      <td>1486</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <th>4264</th>
+      <td>2017DAOU01</td>
+      <td>267.65</td>
+      <td>14336</td>
+      <td>3614</td>
+      <td>404</td>
+      <td>463.11</td>
+      <td>6070</td>
+      <td>1579</td>
+      <td>193</td>
+      <td>722.00</td>
+      <td>4831</td>
+      <td>1233</td>
+      <td>137</td>
+    </tr>
+    <tr>
+      <th>4265</th>
+      <td>2012SANC01</td>
+      <td>284.04</td>
+      <td>14414</td>
+      <td>3632</td>
+      <td>425</td>
+      <td>195.26</td>
+      <td>2875</td>
+      <td>747</td>
+      <td>87</td>
+      <td>270.61</td>
+      <td>2047</td>
+      <td>531</td>
+      <td>79</td>
+    </tr>
+  </tbody>
+</table>
+<p>4266 rows × 13 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 </div>
